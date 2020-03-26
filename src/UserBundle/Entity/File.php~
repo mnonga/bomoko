@@ -1,0 +1,50 @@
+<?php
+
+namespace UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * File
+ *
+ * @ORM\Table(name="file", indexes={@ORM\Index(name="pub", columns={"pub"})})
+ * @ORM\Entity
+ */
+class File
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="path", type="string", length=255, nullable=false)
+     */
+    private $path;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", nullable=false)
+     */
+    private $type;
+
+    /**
+     * @var \Pub
+     *
+     * @ORM\ManyToOne(targetEntity="Pub")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pub", referencedColumnName="id")
+     * })
+     */
+    private $pub;
+
+
+}
+

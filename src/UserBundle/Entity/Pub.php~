@@ -1,0 +1,93 @@
+<?php
+
+namespace UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Pub
+ *
+ * @ORM\Table(name="pub", indexes={@ORM\Index(name="dateheure", columns={"dateheure"}), @ORM\Index(name="user", columns={"user"}), @ORM\Index(name="categorie", columns={"categorie"})})
+ * @ORM\Entity
+ */
+class Pub
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255, nullable=false)
+     */
+    private $titre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contenu", type="text", length=65535, nullable=false)
+     */
+    private $contenu;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateheure", type="datetime", nullable=false)
+     */
+    private $dateheure = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_like", type="integer", nullable=false)
+     */
+    private $nbLike;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_dislike", type="integer", nullable=false)
+     */
+    private $nbDislike;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user", referencedColumnName="userid")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var \Categorie
+     *
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="categorie", referencedColumnName="id")
+     * })
+     */
+    private $categorie;
+
+    /**
+    * @ORM\OneToMany(
+    * targetEntity="\UserBundle\Entity\File",
+    * mappedBy="pub",
+    * orphanRemoval=true
+    * )
+    * 
+    */
+    private $files;
+
+
+
+
+}
+

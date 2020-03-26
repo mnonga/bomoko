@@ -1,0 +1,48 @@
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-leaf"></span> Bomoko</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li {% if selected_item == 'ACCUEIL' %} class="active" {% endif %} >
+                    <a href="{{ path('user_login') }}"><span class="glyphicon glyphicon-home"></span> Accueil</a></li>
+                <li {% if selected_item == 'SERVICES' %} class="active" {% endif %} >
+                    <a href="{{ path('user_login') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Services</a></li>
+                <li {% if selected_item == 'TALENTS' %} class="active" {% endif %} >
+                    <a href="{{ path('user_login') }}"><span class="glyphicon glyphicon-star-empty"></span> Talents</a></li>
+                <li {% if selected_item == 'INSCRIPTION' %} class="active" {% endif %} >
+                    <a href="{{ path('user_signin') }}"><span class="glyphicon glyphicon-star-empty"></span> Inscription</a></li>
+                <!-- <li <c:if test="${requestScope.menu=='Reception'}"> class="active"</c:if> >
+                    <a href="<c:url value="/reception"/>"><span class="glyphicon glyphicon-send"></span> Reception</a></li>
+                <li <c:if test="${requestScope.menu=='Courriels'}"> class="active"</c:if> >
+                    <a href="<c:url value="/courriels"/>"><span class="glyphicon glyphicon-envelope"></span> Courriels</a></li>
+                <li <c:if test="${requestScope.menu=='Suivi'}"> class="active"</c:if> >
+                    <a href="<c:url value="/suivi"/>"><span class="glyphicon glyphicon-info-sign"></span> Suivi</a></li> -->
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span> {{app.user.username}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('user_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Deconnexion</a></li>
+                    <li><a href="{{ path('user_profile') }}"><span class="glyphicon glyphicon-camera"></span> Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Paramètres du compte</a></li>
+                </ul>
+                {% else %}
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+

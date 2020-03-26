@@ -1,0 +1,85 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Recherche : {% endblock %}
+{% block body %}
+
+    <div class="row">
+        {% if pubs|length > 0 %}
+            <div class="well">
+                <h3 class="text-left"><span class="text-muted"><span class="fa fa-search"></span> Résultat de la récherche</span></h3>
+                <p><span class="text-muted">Mot récherché :</span> {{ text }} <br>
+                    <span class="text-muted">Nombre de résultat :</span> {{ row_count }}
+                </p>
+            </div>
+        {% endif %}
+        {% for pub in pubs %}
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+                <div class=thumbnail>
+                    <img src="{{ asset('files/pub/images/' ~ pub.files[0].path) }}">
+                    <div class="caption">
+                        <a href="{{ path('pub_view', {'pub':pub.id} ) }}" class="btn btn-link"><h3>{{ pub.titre }}</h3>
+                        </a>
+                        <p>{{ pub.contenu|slice(0,255) }}
+                            {% if pub.contenu|length > 255 %}...{% endif %}
+                        </p>
+                        <p class="text-muted">
+                            <small>Publié le {{ pub.dateheure|date('d/m/Y \\à H:s') }}</small>
+                            <small class="pull-right">par <a href="#">{{ pub.user.name|title }}</a></small>
+                        </p>
+                        <p class="text-center">
+                            <a href="{{ path('pub_like', {'page':pagenum, 'pub':pub.id} ) }}"
+                               class="btn btn-default {% if pub.likeExtra=='like' %}btn-info{% endif %}"
+                               role="button"><span class="glyphicon glyphicon-thumbs-up"></span>
+                                <span class="badge">{{ pub.nbLike }}</span> </a>
+                            <a class="btn btn-default {% if pub.likeExtra=='dislike' %}btn-danger{% endif %}"
+                               href="{{ path('pub_dislike', {'page':pagenum, 'pub':pub.id} ) }}" role="button"><span
+                                        class="glyphicon glyphicon-thumbs-down success"></span>
+                                <span class="badge">{{ pub.nbDislike }}</span> </a>
+                            <a class="btn btn-default" href="#" role="button"><span
+                                        class="glyphicon glyphicon-comment danger"></span>
+                                Commenter <span class="badge">{{ pub.nbComment }}</span></a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        {% else %}
+            <div class="jumbotron">
+                <h1 class="text-center"><span class="text-muted"><span class="fa fa-exclamation-circle"></span> Aucun résultat</span></h1>
+                <p><span class="text-muted">Mot récherché :</span> {{ text }} <br>
+                    <span class="text-muted">Nombre de résultat :</span> {{ row_count }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center">
+        <ul class="pagination">
+            {% set mini = pagenum // 10 %}
+            {% set maxi = mini + 10 %}
+            {% set mini = mini == 0 ? 1 : mini %}
+            {% set maxi = nombre_page < maxi ? nombre_page : maxi %}
+            {% set nums = range(mini, maxi) %}
+            {% if nombre_page > 10 %}
+                {% set nums = nums |merge (range(1, nombre_page, 10 )) %}
+            {% endif %}
+
+            {# supprimer les doublons dans la liste nums #}
+
+            {% set nums = nums|sort %}
+
+            {% if pagenum > 1 %}
+                <li class="previous"><a href="{{ path('pub_search', {'page':pagenum-1, 'text':text} ) }}">&laquo;</a></li>
+            {% endif %}
+
+            {% for i in nums  %}
+                <li class="previous{{ i==pagenum ? ' active' : '' }}" ><a href="{{ path('pub_search', {'page':i, 'text':text} ) }}">{{ i }}</a></li>
+            {% endfor %}
+
+            {% if pagenum < nombre_page %}
+                <li class="next"><a href="{{ path('pub_search', {'page':pagenum+1, 'text':text} ) }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

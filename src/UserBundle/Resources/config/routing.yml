@@ -1,0 +1,3 @@
+user_connexion:
+    path:     /connexion
+    defaults: { _controller: UserBundle:Default:index }

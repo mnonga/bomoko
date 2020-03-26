@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initialscale=1.0">
+
+	<title>{% block title %}Bomoko - {% endblock %}</title>
+	{% block stylesheets %}
+    	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css"/>
+    	<link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"/>
+    	<link rel="stylesheet" type="text/css" href= "{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	{% endblock %}
+</head>
+<body>
+<div id="wrap">
+<!-- 		include header here -->
+	{% block pageheader %}
+		{% set header_options={
+			'selected_item':'ACCUEIL', 
+		} %}
+		{% include "@User/header.html.twig" with header_options %}		
+	{% endblock %}
+
+	<div class="container">
+		{% block body %}
+		{% endblock %}
+	</div>
+</div>
+<!-- include footer here -->
+{% include "@User/footer.html.twig" %}
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript">
+        /*Sticky footer*/
+        $(function () {
+            var height=$('#footer').css('height');
+            $('#wrap').css({'margin':'0 auto -'+height, 'padding':'0 0 '+height});
+        });
+	</script>
+{% endblock %}	
+</body>
+</html>

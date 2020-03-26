@@ -1,0 +1,59 @@
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><b>Bomoko</b><span class="glyphicon glyphicon-leaf"></span></a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                {% set route = app.request.attributes.get('_route') %}
+                <li {% if route == 'pub_list' %} class="active" {% endif %} >
+                    <a href="{{ path('pub_list') }}"><span class="glyphicon glyphicon-home"></span> Pubs</a></li>
+                {% if route == 'pub_search' %}
+                    <li {% if route == 'pub_search' %} class="active" {% endif %} >
+                        <a href="{{ path('pub_search') }}"><span class="glyphicon glyphicon-search"></span> Recherche</a></li>
+                {% endif %}
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <li {% if route == 'user_profile' %} class="active" {% endif %} >
+                    <a href="{{ path('user_profile') }}"><span class="glyphicon glyphicon-camera"></span> Profile</a></li>
+                <li {% if route == 'pub_new' %} class="active" {% endif %} >
+                    <a href="{{ path('pub_new') }}"><span class="glyphicon glyphicon-plus"></span> Nouvelle Pub</a></li>
+                {% endif %}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span> {{app.user.username}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('user_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Deconnexion</a></li>
+                    <li><a href="{{ path('user_profile') }}"><span class="glyphicon glyphicon-camera"></span> Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Paramètres du compte</a></li>
+                </ul>
+                {% else %}
+                    {% if route == 'user_login' %}
+                    <li><a href="{{ path('user_signin') }}"><span class="glyphicon glyphicon-pencil"></span> Inscription</a></li>
+                    {% else %}
+                    <li><a href="{{ path('user_login') }}"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+
+            <form class="navbar-form navbar-right" role="search" method="GET" action="{{ path('pub_search') }}">
+                <div class="form-group">
+                    <input type="search" class="form-control" placeholder="Recherche" required="true" name="text" value="{{ text|default('') }}"
+                    >
+                </div>
+            </form>
+
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+

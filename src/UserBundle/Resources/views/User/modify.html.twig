@@ -1,0 +1,20 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Inscription{% endblock %}
+{% block body %}
+
+
+    <div class="well col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+        <form method="post" method="POST" action="{{ path('user_modify') }}">
+            <legend><span class="glyphicon glyphicon-pencil"> Modifier les informations du compte</legend>
+            {{ form_widget(form) }}
+            {{ form_rest(form) }}
+            <!-- <input type="submit" class="btn btn-primary" /> -->
+            {% for message in app.session.flashbag.get('user_modify_message') %}
+                <p class="alert alert-success">{{ message }}</p>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary pull-right">Valider <span
+                        class="glyphicon glyphicon-floppy-disk"></span></button>
+        </form>
+    </div>
+
+{% endblock %}

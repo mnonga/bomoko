@@ -1,0 +1,19 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Inscription{% endblock %}
+{% block body %}
+
+
+<div class="well col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+<form method="post"  method="POST" action="{{ path('user_signin') }}" enctype="multipart/form-data">
+	<legend>Inscription à Bomoko<span class="glyphicon glyphicon-leaf"></legend>
+	{{ form_widget(form) }}
+	{{ form_rest(form) }}
+	<!-- <input type="submit" class="btn btn-primary" /> -->
+		{% if deny_licence %}
+    	<div class="alert alert-danger">Veuillez accepter les conditions d'utilisation avant de continuer !</div>
+		{% endif %}
+	<button type="submit" class="btn btn-primary pull-right">Envoyer <span class="glyphicon glyphicon-send"></span></button>
+</form>
+</div>
+
+{% endblock %}

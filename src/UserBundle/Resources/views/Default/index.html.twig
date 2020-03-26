@@ -1,0 +1,11 @@
+{# src/Sdz/BlogBundle/Resources/views/Blog/index.html.twig #}
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Connexion{% endblock %}
+{% block body %}
+<form class="well">
+	<legend>Connexion à Bomoko</legend>
+	<div class="form-group"><input type="text" name="" placeholder="username" class="form-control"></div>
+	<div class="form-group"><input type="password" name="" placeholder="password" class="form-control"></div>
+	<input type="submit" name="" value="Connexion" class="btn btn-success">
+</form>
+{% endblock %}

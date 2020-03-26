@@ -1,0 +1,17 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Supprimer la publication{% endblock %}
+{% block body %}
+<div class="jumbotron">
+	<form method="post"  method="POST" action="{{ path( 'pub_delete', {'pub':pub.id} ) }}" >
+		<legend><span class="glyphicon glyphicon-trash"></span> Supprimer la publication</legend>
+		<p>Voulez-vous vraiment supprimer la publication? <span class="glyphicon glyphicon-question-sign"></span> </p>
+		<div class="btn-group">{{ form_widget(form.Supprimer) }}{{ form_widget(form.Annuler) }}</div>
+		{{ form_widget(form) }}
+		{{ form_rest(form) }}
+
+	</form>
+	
+</div>
+
+
+{% endblock %}

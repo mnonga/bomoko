@@ -1,0 +1,15 @@
+#user:
+#    resource: "@UserBundle/Resources/config/routing.yml"
+#    prefix:   /
+
+user:
+    resource: '@UserBundle/Controller/'
+    type: annotation
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+user_logout:
+    path: /deconnexion
+user_login_check:
+    path: /connexion_check

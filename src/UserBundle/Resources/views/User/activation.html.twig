@@ -1,0 +1,7 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Activation du compte{% endblock %}
+{% block body %}
+<div class="jumbotron"><h1 class="text-center">Activation du compte</h1>
+	<p class="text-center">Votre compte vient d'etre activé ({{user.name}})<br>Vous pouvez maintenant vous connecter sur le site, creer des publications, commenter des publications...</p>
+</div>
+{% endblock %}

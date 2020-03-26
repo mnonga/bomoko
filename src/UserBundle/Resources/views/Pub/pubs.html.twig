@@ -1,0 +1,48 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Pubs{% endblock %}
+{% block body %}
+
+<div class="row">
+	{% for pub in pubs %}
+	<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12">
+		<div class=thumbnail>
+			<img src="{{ asset('files/pub/images/' ~ pub.files[0].path) }}">
+			<div class="caption">
+				<a href="{{ path('pub_view', {'pub':pub.id} ) }}" class="btn btn-link"><h3>{{ pub.titre }}</h3></a>
+				<p>{{  pub.contenu|slice(0,255) }} 
+					{% if pub.contenu|length > 255 %}...{% endif %}
+				</p>
+				<p class="text-muted"><small>Publié le {{ pub.dateheure|date('d/m/Y \\à H:s') }}</small>
+					<small class="pull-right">par <a href="#">{{ pub.user.name|title }}</a></small>
+				</p>
+				<p class="text-center">
+					<a href="{{ path('pub_like', {'page':pagenum, 'pub':pub.id} ) }}"
+					class="btn btn-default {% if pub.likeExtra=='like' %}btn-info{% endif %}" role="button"><span class="glyphicon glyphicon-thumbs-up"></span> 
+						<span class="badge">{{ pub.nbLike }}</span>   </a>
+						<a class="btn btn-default {% if pub.likeExtra=='dislike' %}btn-danger{% endif %}" 
+						href="{{ path('pub_dislike', {'page':pagenum, 'pub':pub.id} ) }}" role="button"><span class="glyphicon glyphicon-thumbs-down success"></span>
+							<span class="badge">{{ pub.nbDislike }}</span> </a>
+							<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-comment danger"></span> 
+								Commenter <span class="badge">{{ pub.nbComment }}</span></a>
+							</p>	
+						</div>
+
+					</div>	
+				</div>
+
+				{% else %}
+				<div class="col-6 col-sm-6 col-lg-4"><h2>Aucune Publication!</h2></div>
+				{% endfor %}
+			</div>
+
+			<ul class="pager">
+				{% if pagenum > 1 %}
+					<li class="previous"><a href="{{ path('pub_list', {'page':pagenum-1} ) }}">&larr; Précedent</a></li>
+				{% endif %}
+				{% if pagenum < nombre_page %}
+					<li class="next"><a href="{{ path('pub_list', {'page':pagenum+1} ) }}">Suivant &rarr;</a></li>
+				{% endif %}
+				
+			</ul>
+
+			{% endblock %}

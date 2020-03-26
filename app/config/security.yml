@@ -1,0 +1,73 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        main:
+            entity: { class: UserBundle\Entity\User, property: email }
+        in_memory:
+            memory:
+                users:
+                    admin@bomoko.com: { password: password, roles: ['ROLE_ADMIN' ] }
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_BUSINESSMAN]
+        ROLE_BUSINESSMAN: [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin:
+            pattern: ^/admin/
+            anonymous: true
+            provider: in_memory
+            form_login:
+                login_path: admin_login
+                check_path: user_login_check
+                default_target_path: pub_list
+            logout:
+                path: user_logout
+                target: user_login
+        main:
+            pattern: ^/
+            anonymous: true
+            provider: main
+            guard:
+                authenticators:
+                    #- user.form_login_authenticator
+                    - UserBundle\Security\LoginFormAuthenticator
+                entry_point:
+                    UserBundle\Security\LoginFormAuthenticator
+            form_login:
+                login_path: user_login
+                check_path: user_login_check
+                default_target_path: pub_list
+                #intention: authentication
+            logout:
+                path: user_logout
+                target: user_login
+            remember_me:
+                secret: %secret%
+                lifetime: 604800 #une semaine en secondes
+                path: /
+
+
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ['ROLE_USER','ROLE_BUSINESSMAN'] }
+    encoders:
+        UserBundle\Entity\User: bcrypt
+        Symfony\Component\Security\Core\User\User: plaintext
+

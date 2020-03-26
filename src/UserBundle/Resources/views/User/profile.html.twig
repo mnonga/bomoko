@@ -1,0 +1,46 @@
+{% extends "@User/layout.html.twig" %}
+{% block title %}{{ parent() }}Profile{% endblock %}
+{% block body %}
+    <div class="jumbotron">
+        <h3 class="text-center text-muted">Mon compte Bomoko<span class="glyphicon glyphicon-leaf"></span></h3>
+        <p class="text-center">
+            <img src="{{ asset('files/user/profiles/' ~ user.photo) }}" class="img-thumbnail" width="100px"
+                 height="100px">
+            <br><b><span class="text-muted">{{ user.name }}</span></b>
+        </p>
+        <div class="row">
+            <p class="col-xs-6 text-muted text-right"><i class="fa fa-at"></i> Email :</p>
+            <p class="col-xs-6 text-left">{{ user.email }}</p>
+        </div>
+        <div class="row">
+            <p class="col-xs-6 text-muted text-right"><i class="fa fa-venus-mars"></i> Sexe :</p>
+            <p class="col-xs-6 text-left">{{ user.sexe=='M'?'Homme': 'Femme' }}</p>
+        </div>
+        <div class="row">
+            <p class="col-xs-6 text-muted text-right"><i class="fa fa-birthday-cake"></i> Age :</p>
+            <p class="col-xs-6 text-left">{{ user.datenaissance is not defined? 'Non defini' : ('now'|date('U') - user.datenaissance|date('U'))|date_modify('-1970 year')|date('y') ~ ' ans' }}</p>
+        </div>
+        <div class="row">
+            <p class="col-xs-6 text-muted text-right"><i class="fa fa-map-marker"></i> Adresse :</p>
+            <p class="col-xs-6 text-left">{{ user.adresse|default('Non définie') }}</p>
+        </div>
+        <div class="row">
+            <p class="col-xs-6 text-muted text-right"><i class="fa fa-file-o"></i> Publications :</p>
+            <p class="col-xs-6 text-left">{{ pub_count|default('0') }}</p>
+        </div>
+        <p class="text-center">
+            {% if is_granted("ROLE_BUSINESSMAN") %}
+                <a href="{{ path('pub_new') }}" class="btn btn-link"><i class="fa fa-plus-square"></i> Nouvelle Pub</a>
+                <a href="{{ path('user_profile_change') }}" class="btn btn-link"><i class="fa fa-camera"></i> Modifier
+                    la photo de profile</a>
+                <a href="{{ path('user_modify') }}" class="btn btn-link"><i class="fa fa-pencil"></i> Modifier mes infos</a>
+                <a href="{{ path('user_password_change') }}" class="btn btn-link"><i class="fa fa-key"></i> Changer mon mot de passe</a>
+                <a href="{{ path('user_delete') }}" class="btn btn-link"><i class="fa fa-trash"></i> Supprimer mon
+                    compte</a>
+            {% endif %}
+        </p>
+        {% for message in app.session.flashbag.get('pub_new_message') %}
+            <p class="alert alert-success">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
